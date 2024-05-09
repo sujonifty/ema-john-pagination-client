@@ -58,3 +58,6 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.pagination .selected{
+  background-color: orange;
+}

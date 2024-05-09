@@ -25,7 +25,7 @@ const Shop = () => {
         const val =parseInt(e.target.value);
         // console.log(val)
         setItemsPerPage(val);
-        setItemsPerPage(0);
+        setCurrentPage(0);
     }
     const handlePrevPage=()=>{
         if(currentPage > 0){
@@ -33,15 +33,15 @@ const Shop = () => {
         }
     }
     const handleNextPage=()=>{
-        if(currentPage < pages.length){
+        if(currentPage < pages.length-1){
             setCurrentPage(currentPage +1)
         }
     }
     useEffect(() => {
-        fetch('http://localhost:5000/products')
+        fetch(`http://localhost:5000/products?page=${currentPage}&&size=${itemsPerPage}`)
             .then(res => res.json())
             .then(data => setProducts(data))
-    }, []);
+    }, [currentPage,itemsPerPage]);
 
     useEffect(() => {
         const storedCart = getShoppingCart();
@@ -118,7 +118,7 @@ const Shop = () => {
                     pages.map(page=><button
                          key={page} 
                          onClick={()=> setCurrentPage(page)}
-                         className='btn'>{page}</button>)
+                         className={currentPage===page && 'selected'}>{page}</button>)
                 }
                 <button onClick={handleNextPage}>Next</button>
                 <select onChange={handleItemPerPage} name="" id="" value={itemsPerPage}>
